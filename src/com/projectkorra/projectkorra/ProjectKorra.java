@@ -20,6 +20,7 @@ import com.projectkorra.projectkorra.airbending.util.AirbendingManager;
 import com.projectkorra.projectkorra.chiblocking.util.ChiblockingManager;
 import com.projectkorra.projectkorra.command.Commands;
 import com.projectkorra.projectkorra.configuration.ConfigManager;
+import com.projectkorra.projectkorra.earthbending.passive.Tremorsense;
 import com.projectkorra.projectkorra.earthbending.util.EarthbendingManager;
 import com.projectkorra.projectkorra.firebending.util.FirebendingManager;
 import com.projectkorra.projectkorra.object.Preset;
@@ -40,7 +41,7 @@ public class ProjectKorra extends JavaPlugin {
 	public static CollisionInitializer collisionInitializer;
 	public static long time_step = 1;
 	public Updater updater;
-	
+
 	@Override
 	public void onEnable() {
 		plugin = this;
@@ -56,7 +57,7 @@ public class ProjectKorra extends JavaPlugin {
 		catch (SecurityException | IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		new ConfigManager();
 		new GeneralMethods(this);
 		updater = new Updater(this, "http://projectkorra.com/forums/dev-builds.16/index.rss");
@@ -65,12 +66,12 @@ public class ProjectKorra extends JavaPlugin {
 		new ComboManager();
 		collisionManager = new CollisionManager();
 		collisionInitializer = new CollisionInitializer(collisionManager);
-		CoreAbility.registerAbilities();	
+		CoreAbility.registerAbilities();
 		collisionInitializer.initializeDefaultCollisions(); // must be called after abilities have been registered
 		collisionManager.startCollisionDetection();
-		
+
 		Preset.loadExternalPresets();
-		
+
 		DBConnection.host = getConfig().getString("Storage.MySQL.host");
 		DBConnection.port = getConfig().getInt("Storage.MySQL.port");
 		DBConnection.pass = getConfig().getString("Storage.MySQL.pass");
@@ -92,12 +93,13 @@ public class ProjectKorra extends JavaPlugin {
 		//getServer().getScheduler().scheduleSyncRepeatingTask(this, new PassiveHandler(), 0, 1);
 		getServer().getScheduler().runTaskTimerAsynchronously(this, new RevertChecker(this), 0, 200);
 		TempBlock.startReversion();
-		
+
 		for (final Player player : Bukkit.getOnlinePlayers()) {
 			PKListener.getJumpStatistics().put(player, player.getStatistic(Statistic.JUMP));
-			
+
 			GeneralMethods.createBendingPlayer(player.getUniqueId(), player.getName());
 			GeneralMethods.removeUnusableAbilities(player.getName());
+			Tremorsense.create(player);
 			Bukkit.getScheduler().runTaskLater(ProjectKorra.plugin, new Runnable() {
 				@Override
 				public void run() {
@@ -126,6 +128,9 @@ public class ProjectKorra extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		GeneralMethods.stopBending();
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			Tremorsense.remove(player);
+		}
 		if (DBConnection.isOpen != false) {
 			DBConnection.sql.close();
 		}

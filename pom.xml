@@ -25,7 +25,8 @@
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
       <version>1.10.2-R0.1-SNAPSHOT</version>
-      <scope>provided</scope>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/Spigot-1.10.2.jar</systemPath>
     </dependency>
     <!-- Factions -->
     <dependency>
@@ -201,8 +202,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.1</version>
         <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
 	  <plugin>

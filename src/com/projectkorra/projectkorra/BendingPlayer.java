@@ -737,6 +737,7 @@ public class BendingPlayer {
 			return;
 		}
 		toggledElements.put(element, !toggledElements.get(element));
+		PassiveManager.registerPassives(player);
 	}
 	
 	/**

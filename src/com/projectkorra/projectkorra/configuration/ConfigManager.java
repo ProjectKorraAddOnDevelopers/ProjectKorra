@@ -961,6 +961,11 @@ public class ConfigManager {
 
 			config.addDefault("Abilities.Earth.Passive.Duration", 2500);
 			config.addDefault("Abilities.Earth.Passive.DensityShift.Enabled", true);
+			config.addDefault("Abilities.Earth.Passive.Tremorsense.Enabled", true);
+			config.addDefault("Abilities.Earth.Passive.Tremorsense.DarknessRange", 5);
+			config.addDefault("Abilities.Earth.Passive.Tremorsense.BlindnessRange", 10);
+			config.addDefault("Abilities.Earth.Passive.Tremorsense.LightThreshold", 7);
+			config.addDefault("Abilities.Earth.Passive.Tremorsense.DetectPlayersOnly", false);
 
 			config.addDefault("Abilities.Earth.Catapult.Enabled", true);
 			config.addDefault("Abilities.Earth.Catapult.Length", 6);

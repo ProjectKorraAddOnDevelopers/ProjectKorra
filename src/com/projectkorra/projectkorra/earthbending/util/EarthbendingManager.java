@@ -24,5 +24,6 @@ public class EarthbendingManager implements Runnable {
 		Shockwave.progressAll();
 		Tremorsense.manage(Bukkit.getServer());
 		EarthTunnel.revertAirBlocks();
+		com.projectkorra.projectkorra.earthbending.passive.Tremorsense.updateGlow();
 	}
 }

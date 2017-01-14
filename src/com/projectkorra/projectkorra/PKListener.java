@@ -194,7 +194,7 @@ public class PKListener implements Listener {
 		if (event.isCancelled()) {
 			return;
 		}
-
+		
 		Block block = event.getBlock();
 		Player player = event.getPlayer();
 		if (SurgeWall.wasBrokenFor(player, block) || OctopusForm.wasBrokenFor(player, block)
@@ -1064,6 +1064,7 @@ public class PKListener implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
 		JUMPS.put(player, player.getStatistic(Statistic.JUMP));
+		com.projectkorra.projectkorra.earthbending.passive.Tremorsense.create(event.getPlayer());
 		
 		GeneralMethods.createBendingPlayer(player.getUniqueId(), player.getName());
 		Bukkit.getScheduler().runTaskLater(ProjectKorra.plugin, new Runnable() {
@@ -1200,7 +1201,8 @@ public class PKListener implements Listener {
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
 		BendingPlayer bPlayer = BendingPlayer.getBendingPlayer(player);
-
+		com.projectkorra.projectkorra.earthbending.passive.Tremorsense.remove(player);
+		
 		if (bPlayer != null) {
 			if (TOGGLED_OUT.contains(player.getUniqueId()) && bPlayer.isToggled()) {
 				TOGGLED_OUT.remove(player.getUniqueId());
